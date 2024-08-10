@@ -29,7 +29,7 @@ function formatChampionName(name: string): string {
             <p class="text-lg font-bold ml-2">{Astro.props.champion}</p>
         </div>
         <div class="flex flex-row items-center">
-            <p class="text-lg font-bold">{Astro.props.win ? 'Victory' : 'Defeat'}</p>
+            <p class="text-md">Ranked <span class="text-lg font-bold">{Astro.props.win ? 'Victory' : 'Defeat'}</span></p>
         </div>
     </div>
 </div>
