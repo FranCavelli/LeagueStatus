@@ -1,9 +1,9 @@
 ---
-import MatchBox from '@components/MatchBox.astro';
-import Online from '@components/Online.astro';
+import MatchBox from "@components/MatchBox.astro";
+import Online from "@components/Online.astro";
 
 interface Props {
-	PUUID: string;
+  PUUID: string;
 }
 interface Participant {
   summonerName: string;
@@ -35,34 +35,53 @@ interface MatchInfo {
   participants: Participant[];
 }
 interface Match {
-	info: MatchInfo
+  info: MatchInfo;
 }
 
 const API_KEY = import.meta.env.API_KEY;
 
-const matches = await fetch(`https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${Astro.props.PUUID}/ids?start=0&count=20&&api_key=${API_KEY}`);
+const matches = await fetch(
+  `https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${Astro.props.PUUID}/ids?start=0&count=20&&api_key=${API_KEY}`
+);
 const matchesList = await matches.json();
 
 const matchInfoPromises = matchesList.map(async (matchId: string) => {
-	const matchInfo = await fetch(`https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${API_KEY}`);
-	return matchInfo.json();
+  const matchInfo = await fetch(
+    `https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${API_KEY}`
+  );
+  return matchInfo.json();
 });
 
 const matchInfoDataArray = await Promise.all(matchInfoPromises);
-
 ---
 
 <ul class="mt-4 bg-gray-50 rounded-xl shadow-md p-2 w-full xl:w-1/2">
-    <Online PUUID={Astro.props.PUUID}/>
-    {matchInfoDataArray
-    .filter((match: Match) => match.info.gameMode === 'CLASSIC' || match.info.gameMode === 'ARAM')
-    .map((match:Match) => (
+  <Online PUUID={Astro.props.PUUID} />
+  {
+    matchInfoDataArray
+      .filter(
+        (match: Match) =>
+          match.info.gameMode === "CLASSIC" || match.info.gameMode === "ARAM"
+      )
+      .map((match: Match) => (
         <li>
-            {match.info.participants
-            .filter((participant:Participant) => participant.puuid === Astro.props.PUUID)
-            .map((participant:Participant) => (
-                <MatchBox win={participant.win} champion={participant.championName} gameMode={match.info.gameMode} endOfGameResult={match.info.endOfGameResult} kills={participant.kills} deaths={participant.deaths} assists={participant.assists}></MatchBox>
-            )) }
+          {match.info.participants
+            .filter(
+              (participant: Participant) =>
+                participant.puuid === Astro.props.PUUID
+            )
+            .map((participant: Participant) => (
+              <MatchBox
+                win={participant.win}
+                champion={participant.championName}
+                gameMode={match.info.gameMode}
+                endOfGameResult={match.info.endOfGameResult}
+                kills={participant.kills}
+                deaths={participant.deaths}
+                assists={participant.assists}
+              />
+            ))}
         </li>
-    )) }
+      ))
+  }
 </ul>

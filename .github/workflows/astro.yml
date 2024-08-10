@@ -68,6 +68,10 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
         working-directory: ${{ env.BUILD_PATH }}
+      - name: Print Debug Information
+        run: |
+          echo "Matches List: ${{ steps.build.outputs.matchesList }}"
+          echo "Match Info Data Array: ${{ steps.build.outputs.matchInfoDataArray }}"
       - name: Build with Astro
         run: |
           ${{ steps.detect-package-manager.outputs.runner }} astro build \
