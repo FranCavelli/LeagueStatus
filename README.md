@@ -2,6 +2,6 @@
 
 > 🧑‍🚀 Status of my profile in LOL
 
-> ASTRO + RIOT API
+> ASTRO + TS + RIOT API
 
 ![App](./public/app.JPG)
