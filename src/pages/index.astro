@@ -1,7 +1,6 @@
 ---
 
 import Layout from '@layouts/Layout.astro';
-import Profile from '@components/Profile.astro';
 import Matchs from '@components/Matchs.astro';
 
 const API_KEY = import.meta.env.API_KEY;
@@ -18,7 +17,6 @@ const PUUID = dataUser.puuid;
 	<main>
 		<div class="bg-gray-200 min-w-screen min-h-screen p-4">
 			<div class="p-4 rounded-lg w-full h-full bg-white shadow-xl flex flex-col justify-center items-center">
-				<Profile PUUID={PUUID} dataUser={dataUser}/>
 				<Matchs PUUID={PUUID}/>
 			</div>
 		</div>
