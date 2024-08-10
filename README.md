@@ -2,4 +2,4 @@
 
 > 🧑‍🚀 Status of my profile in LOL
 
-(./public/app.JPG)
+![App](./public/app.JPG)
