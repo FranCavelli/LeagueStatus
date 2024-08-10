@@ -37,6 +37,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Print API Key
+        run: echo "API_KEY=${{ env.API_KEY }}"
       - name: Detect package manager
         id: detect-package-manager
         run: |
