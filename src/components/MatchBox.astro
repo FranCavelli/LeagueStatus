@@ -23,7 +23,9 @@ function formatChampionName(name: string): string {
 <div class={`w-full ${Astro.props.win ? 'bg-lime-500' : 'bg-red-500'}`}>
     <div class="flex flex-row justify-between items-center p-2">
         <div class="flex flex-row items-center">
-            <img src={`https://ddragon.leagueoflegends.com/cdn/11.16.1/img/champion/${formatChampionName(Astro.props.champion)}.png`} class="w-10 h-10" />
+            <div class="rounded-full overflow-hidden">
+                <img src={`https://ddragon.leagueoflegends.com/cdn/14.15.1/img/champion/${formatChampionName(Astro.props.champion)}.png`} class="w-10 h-10 scale-125" />
+            </div>
             <p class="text-lg font-bold ml-2">{Astro.props.champion}</p>
         </div>
         <div class="flex flex-row items-center">
