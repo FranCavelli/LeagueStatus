@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import tailwind from "@astrojs/tailwind";
+import staticAdapter from '@astrojs/static-site';
 
 import node from "@astrojs/node";
 
