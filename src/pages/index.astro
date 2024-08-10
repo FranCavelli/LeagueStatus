@@ -1,0 +1,37 @@
+---
+interface Participant {
+  summonerName: string;
+}
+
+import Layout from '../layouts/Layout.astro';
+
+const API_KEY = import.meta.env.API_KEY;
+const GAME_NAME = 'Fran4all';
+const TAG_LINE = 'LAS';
+
+const user = await fetch(`https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${GAME_NAME}/${TAG_LINE}?api_key=${API_KEY}`);
+const dataUser = await user.json();
+
+const PUUID = dataUser.puuid;
+
+const matches = await fetch(`https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${PUUID}/ids?start=0&count=20&type=ranked&api_key=${API_KEY}`);
+const matchesList = await matches.json();
+
+const matchInfo = await fetch(`https://americas.api.riotgames.com/lol/match/v5/matches/${matchesList[0]}?api_key=${API_KEY}`);
+const matchInfoData = await matchInfo.json();
+
+---
+
+<Layout title="League Status">
+	<main>
+		<h1>{dataUser.gameName}</h1>
+		<h2>{dataUser.tagLine}</h2>
+		<ul>
+			{ matchInfoData.info.participants.map((participant:Participant) => (
+				<li>
+					{participant.summonerName}
+				</li>
+			)) }
+		</ul>
+	</main>
+</Layout>
