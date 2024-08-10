@@ -1,0 +1,35 @@
+---
+interface Props {
+	PUUID: String;
+    dataUser: {
+        gameName: String;
+        tagLine: String;
+    };
+}
+const API_KEY = import.meta.env.API_KEY;
+
+const summoner = await fetch(`https://la2.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${Astro.props.PUUID}?api_key=${API_KEY}`);
+const summonerInfo = await summoner.json();
+const SUMMONER_ID = summonerInfo.id;
+
+const leagueSummoner = await fetch(`https://la2.api.riotgames.com/lol/league/v4/entries/by-summoner/${SUMMONER_ID}?api_key=${API_KEY}`);
+const leagueSummonerInfo = await leagueSummoner.json();
+---
+
+<div class="flex w-full xl:w-1/2 bg-gray-50 rounded-xl shadow-md p-2">
+    <div class="w-1/2 flex flex-col justify-center items-center">
+        <div class="aspect-square w-24 h-24 rounded-full overflow-hidden">
+            <img class="w-full h-full transform scale-125" src={`https://ddragon.leagueoflegends.com/cdn/14.15.1/img/profileicon/${summonerInfo.profileIconId}.png`} alt={summonerInfo.profileIconId}>
+        </div>
+        <p>{Astro.props.dataUser.gameName + '#' + Astro.props.dataUser.tagLine}</p>
+        <p>Nivel {summonerInfo.summonerLevel}</p>
+    </div>
+    <div class="w-1/2 flex flex-col justify-center items-center">
+        <div class="aspect-square w-24 h-24">
+            <img src={`../src/assets/${leagueSummonerInfo[1].tier}.png`} alt={leagueSummonerInfo[1].tier}>
+        </div>
+        <p>{leagueSummonerInfo[1].tier + ' ' + leagueSummonerInfo[1].rank}</p>
+        <p>{leagueSummonerInfo[1].leaguePoints + ' LPS'}</p>
+        <p>{leagueSummonerInfo[1].wins + ' - ' + leagueSummonerInfo[1].losses}</p>
+    </div>
+</div>
