@@ -53,7 +53,7 @@ let matchInfoDataArray = [];
 for (let i = 0; i < matchesList.length; i++) {
 	const matchInfo = await fetch(`https://americas.api.riotgames.com/lol/match/v5/matches/${matchesList[i]}?api_key=${API_KEY}`);
 	const matchInfoData = await matchInfo.json();
-	matchInfoDataArray.push(matchInfoData);
+	matchInfoDataArray.push(await matchInfoData);
 }
 
 const summoner = await fetch(`https://la2.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${PUUID}?api_key=${API_KEY}`);
