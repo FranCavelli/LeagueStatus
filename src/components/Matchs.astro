@@ -1,5 +1,6 @@
 ---
 import MatchBox from '@components/MatchBox.astro';
+import Online from '@components/Online.astro';
 
 interface Props {
 	PUUID: string;
@@ -29,7 +30,7 @@ interface Participant {
 
 interface MatchInfo {
   win: boolean;
-  gameMode: string;
+  gameMode?: string;
   endOfGameResult: string;
   participants: Participant[];
 }
@@ -52,6 +53,7 @@ const matchInfoDataArray = await Promise.all(matchInfoPromises);
 ---
 
 <ul class="mt-4 bg-gray-50 rounded-xl shadow-md p-2 w-full xl:w-1/2">
+    <Online PUUID={Astro.props.PUUID}/>
     {matchInfoDataArray
     .filter((match: Match) => match.info.gameMode === 'CLASSIC' || match.info.gameMode === 'ARAM')
     .map((match:Match) => (

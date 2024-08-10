@@ -2,7 +2,7 @@
 interface Props {
 	win: boolean;
     champion: string;
-    gameMode: string;
+    gameMode?: string;
     endOfGameResult: string;
     kills: number;
     deaths: number;
@@ -31,11 +31,11 @@ function formatChampionName(name: string): string {
     <div class="flex flex-row justify-between items-center py-2 px-4">
         <div class="flex flex-row items-center">
             <div class="rounded-full overflow-hidden">
-                <img src={`https://ddragon.leagueoflegends.com/cdn/14.15.1/img/champion/${formatChampionName(Astro.props.champion)}.png`} class="w-10 h-10 scale-125" />
+                <img src={`https://ddragon.leagueoflegends.com/cdn/14.15.1/img/champion/${formatChampionName(Astro.props.champion)}.png`} class="min-w-10 w-10 h-10 scale-125" />
             </div>
             <p class="text-lg font-bold ml-2">{Astro.props.champion}</p>
+            <b class="ms-2"> {Astro.props.kills + '/' + Astro.props.deaths + '/' + Astro.props.assists}</b>
         </div>
-        <b>{Astro.props.kills + '/' + Astro.props.deaths + '/' + Astro.props.assists}</b>
         <div class="flex flex-row items-center">
             <p class="text-md">{Astro.props.gameMode} <span class="text-lg font-bold">{Astro.props.win ? 'Victory' : 'Defeat'}</span></p>
         </div>

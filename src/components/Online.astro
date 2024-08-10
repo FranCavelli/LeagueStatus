@@ -5,13 +5,13 @@ interface Props {
 
 const API_KEY = import.meta.env.API_KEY;
 
-const matchOnline = await fetch(`https://la2.api.riotgames.com/lol/spectator/v5/active-games/by-summoner/${Astro.props.PUUID}/ids?start=0&count=20&&api_key=${API_KEY}`);
-
+const matchOnline = await fetch(`https://la2.api.riotgames.com/lol/spectator/v5/active-games/by-summoner/${Astro.props.PUUID}?api_key=${API_KEY}`);
+console.log(matchOnline)
 ---
 {matchOnline.status===200 ?
-    <div class="bg-blue-300">
-        <div class="flex flex-row justify-between items-center py-2 px-4">
-            <b>En partida</b>
+    <div class="bg-blue-300 w-full rounded-xl">
+        <div class="flex flex-row justify-center items-center py-2 px-4 text-center">
+            <span>In game</span>
         </div>
     </div>
 : ''}
