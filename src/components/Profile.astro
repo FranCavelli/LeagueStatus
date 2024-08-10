@@ -26,7 +26,7 @@ const leagueSummonerInfo = await leagueSummoner.json();
     </div>
     <div class="w-1/2 flex flex-col justify-center items-center">
         <div class="aspect-square w-24 h-24">
-            <img src={`../src/assets/${leagueSummonerInfo[1].tier}.png`} alt={leagueSummonerInfo[1].tier}>
+            <img src={`@assets/${leagueSummonerInfo[1].tier}.png`} alt={leagueSummonerInfo[1].tier}>
         </div>
         <p>{leagueSummonerInfo[1].tier + ' ' + leagueSummonerInfo[1].rank}</p>
         <p>{leagueSummonerInfo[1].leaguePoints + ' LPS'}</p>
