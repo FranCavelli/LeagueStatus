@@ -2,6 +2,11 @@
 interface Props {
 	win: boolean;
     champion: string;
+    gameMode: string;
+    endOfGameResult: string;
+    kills: number;
+    deaths: number;
+    assists: number;
 }
 
 
@@ -14,6 +19,8 @@ function formatChampionName(name: string): string {
 		return 'JarvanIV'
 	case 'TwistedFate':
 		return 'TwistedFate'
+    case 'MissFortune':
+        return 'MissFortune'
 	default:
 	return cleanedName.charAt(0).toUpperCase() + cleanedName.slice(1);
   }
@@ -28,8 +35,9 @@ function formatChampionName(name: string): string {
             </div>
             <p class="text-lg font-bold ml-2">{Astro.props.champion}</p>
         </div>
+        <b>{Astro.props.kills + '/' + Astro.props.deaths + '/' + Astro.props.assists}</b>
         <div class="flex flex-row items-center">
-            <p class="text-md">Ranked <span class="text-lg font-bold">{Astro.props.win ? 'Victory' : 'Defeat'}</span></p>
+            <p class="text-md">{Astro.props.gameMode} <span class="text-lg font-bold">{Astro.props.win ? 'Victory' : 'Defeat'}</span></p>
         </div>
     </div>
 </div>
