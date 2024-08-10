@@ -7,7 +7,7 @@ export default defineConfig({
   site: 'https://FranCavelli.github.io',
   base: '/LeagueStatus/',
   integrations: [tailwind()],
-  output: 'hybrid',
+  output: 'server',
   adapter: node({
     mode: "standalone",
   }),
