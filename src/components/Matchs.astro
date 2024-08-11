@@ -40,19 +40,25 @@ interface Match {
 
 const API_KEY = import.meta.env.API_KEY;
 
-const matches = await fetch(
-  `https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${Astro.props.PUUID}/ids?start=0&count=20&&api_key=${API_KEY}`
-);
-const matchesList = await matches.json();
+let matchInfoDataArray = [];
 
-const matchInfoPromises = matchesList.map(async (matchId: string) => {
-  const matchInfo = await fetch(
-    `https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${API_KEY}`
+try {
+  const matches = await fetch(
+    `https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${Astro.props.PUUID}/ids?start=0&count=20&&api_key=${API_KEY}`
   );
-  return matchInfo.json();
-});
+  const matchesList = await matches.json();
 
-const matchInfoDataArray = await Promise.all(matchInfoPromises);
+  const matchInfoPromises = matchesList.map(async (matchId: string) => {
+    const matchInfo = await fetch(
+      `https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${API_KEY}`
+    );
+    return matchInfo.json();
+  });
+
+  matchInfoDataArray = await Promise.all(matchInfoPromises);
+} catch (error) {
+  console.error(error);
+}
 ---
 
 <ul class="mt-4 bg-gray-50 rounded-xl shadow-md p-2 w-full xl:w-1/2">

@@ -7,7 +7,7 @@ const API_KEY = import.meta.env.API_KEY;
 
 const matchOnline = await fetch(`https://la2.api.riotgames.com/lol/spectator/v5/active-games/by-summoner/${Astro.props.PUUID}?api_key=${API_KEY}`);
 ---
-{matchOnline.status===200 ?
+{matchOnline.ok ?
     <div class="bg-blue-300 w-full rounded-xl">
         <div class="flex flex-row justify-center items-center py-2 px-4 text-center">
             <span>In game</span>

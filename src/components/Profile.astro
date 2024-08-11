@@ -6,18 +6,63 @@ interface Props {
     tagLine: String;
   };
 }
+interface summonerInfo{
+    id: String;
+    profileIconId: String;
+    summonerLevel: number;
+}
+
 const API_KEY = import.meta.env.API_KEY;
 
-const summoner = await fetch(
-  `https://la2.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${Astro.props.PUUID}?api_key=${API_KEY}`
-);
-const summonerInfo = await summoner.json();
-const SUMMONER_ID = summonerInfo.id;
+let summonerInfo = {} as summonerInfo;
+let leagueSummonerInfo = [];
+    
+let soloQRank = "Unranked";
+let flexRank = "Unranked";
 
-const leagueSummoner = await fetch(
-  `https://la2.api.riotgames.com/lol/league/v4/entries/by-summoner/${SUMMONER_ID}?api_key=${API_KEY}`
-);
-const leagueSummonerInfo = await leagueSummoner.json();
+let soloQPoints = "0 LPS";
+let flexPoints = "0 LPS";
+
+let soloQWins = "0 - 0";
+let flexWins = "0 - 0";
+
+let soloQIMG = 'src/assets/images/CHALLENGER.png';
+let flexIMG = 'src/assets/images/CHALLENGER.png';
+let iconIMG = 'https://ddragon.leagueoflegends.com/cdn/14.15.1/img/profileicon/0.png';
+
+let SummonerLevel = 0;
+
+try {
+  const summoner = await fetch(
+    `https://la2.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${Astro.props.PUUID}?api_key=${API_KEY}`
+  );
+  if (!summoner.ok) throw new Error('Error fetching summoner data');
+  summonerInfo = await summoner.json();
+  const SUMMONER_ID = summonerInfo.id;
+  SummonerLevel = summonerInfo.summonerLevel;
+  
+  const leagueSummoner = await fetch(
+    `https://la2.api.riotgames.com/lol/league/v4/entries/by-summoner/${SUMMONER_ID}?api_key=${API_KEY}`
+  );
+  if (!leagueSummoner.ok) throw new Error('Error fetching league data');
+  leagueSummonerInfo = await leagueSummoner.json();
+
+   soloQRank = leagueSummonerInfo[1].tier + " " + leagueSummonerInfo[1].rank;
+   flexRank = leagueSummonerInfo[2].tier + " " + leagueSummonerInfo[2].rank;
+
+   soloQPoints = leagueSummonerInfo[1].leaguePoints + " LPS";
+   flexPoints = leagueSummonerInfo[2].leaguePoints + " LPS";
+
+   soloQWins = leagueSummonerInfo[1].wins + " - " + leagueSummonerInfo[1].losses;
+   flexWins = leagueSummonerInfo[2].wins + " - " + leagueSummonerInfo[2].losses;
+
+   soloQIMG = `src/assets/images/${leagueSummonerInfo[1].tier}.png`;
+   flexIMG = `src/assets/images/${leagueSummonerInfo[2].tier}.png`;
+   iconIMG = `https://ddragon.leagueoflegends.com/cdn/14.15.1/img/profileicon/${summonerInfo.profileIconId}.png`;
+  
+} catch (error) {
+    console.log(error);
+}
 ---
 
 <div class="flex w-full xl:w-1/2 bg-gray-50 rounded-xl shadow-md p-2">
@@ -25,22 +70,22 @@ const leagueSummonerInfo = await leagueSummoner.json();
     <div class="aspect-square w-24 h-24 rounded-full overflow-hidden">
       <img
         class="w-full h-full transform scale-125"
-        src={`https://ddragon.leagueoflegends.com/cdn/14.15.1/img/profileicon/${summonerInfo.profileIconId}.png`}
-        alt={summonerInfo.profileIconId}
+        src={iconIMG}
+        alt="Profile Icon"
       />
     </div>
     <p>{Astro.props.dataUser.gameName + "#" + Astro.props.dataUser.tagLine}</p>
-    <p>Nivel {summonerInfo.summonerLevel}</p>
+    <p>Level {SummonerLevel}</p>
   </div>
   <div class="w-1/2 flex flex-col justify-center items-center">
     <div class="aspect-square w-24 h-24">
       <img
-        src={leagueSummonerInfo[1].tier ? `../src/assets/${leagueSummonerInfo[1].tier}.png` : ''}
-        alt={leagueSummonerInfo[1].tier ? leagueSummonerInfo[1].tier : ''}
+        src={soloQIMG}
+        alt="Rank Icon"
       />
     </div>
-    <p>{leagueSummonerInfo[1].tier ? leagueSummonerInfo[1].tier + " " + leagueSummonerInfo[1].rank : ''}</p>
-    <p>{leagueSummonerInfo[1].tier ? leagueSummonerInfo[1].leaguePoints + " LPS" : ''}</p>
-    <p>{leagueSummonerInfo[1].tier ? leagueSummonerInfo[1].wins + " - " + leagueSummonerInfo[1].losses : ''}</p>
+    <p>{soloQRank}</p>
+    <p>{soloQPoints}</p>
+    <p>{soloQWins}</p>
   </div>
 </div>
