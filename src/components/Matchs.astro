@@ -60,11 +60,10 @@ try {
   console.error(error);
 }
 ---
-
+{matchInfoDataArray ? 
 <ul class="mt-4 bg-gray-50 rounded-xl shadow-md p-2 w-full xl:w-1/2">
   <Online PUUID={Astro.props.PUUID} />
-  {matchInfoDataArray ? 
-    matchInfoDataArray
+  {matchInfoDataArray
       .filter(
         (match: Match) =>
           match.info.gameMode === "CLASSIC" || match.info.gameMode === "ARAM"
@@ -89,5 +88,7 @@ try {
             ))}
         </li>
       ))
-   : ''}
+   }
 </ul>
+ : ''}
+
