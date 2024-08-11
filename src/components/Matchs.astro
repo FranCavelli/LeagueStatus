@@ -41,7 +41,6 @@ interface Match {
 const API_KEY = import.meta.env.API_KEY;
 
 let matchInfoDataArray = [];
-let hasMatches = false;
 
 try {
   const matches = await fetch(
@@ -57,12 +56,11 @@ try {
   });
 
   matchInfoDataArray = await Promise.all(matchInfoPromises);
-  hasMatches = Array.isArray(matchInfoDataArray) && matchInfoDataArray.length > 0;
 } catch (error) {
   console.error(error);
 }
 ---
-{hasMatches ? 
+{matchInfoDataArray.length>0 ? 
 <ul class="mt-4 bg-gray-50 rounded-xl shadow-md p-2 w-full xl:w-1/2">
   <Online PUUID={Astro.props.PUUID} />
   {matchInfoDataArray
