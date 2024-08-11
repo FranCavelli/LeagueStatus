@@ -46,14 +46,14 @@ let hasMatches = false;
 try {
   const matches = await fetch(
     `https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${Astro.props.PUUID}/ids?start=0&count=20&&api_key=${API_KEY}`
-  );
-  const matchesList = await matches.json();
+  ).then(res => res.json());
+  const matchesList = matches;
 
   const matchInfoPromises = matchesList.map(async (matchId: string) => {
     const matchInfo = await fetch(
       `https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${API_KEY}`
-    );
-    return matchInfo.json();
+    ).then(res => res.json());
+    return matchInfo;
   });
 
   matchInfoDataArray = await Promise.all(matchInfoPromises);
